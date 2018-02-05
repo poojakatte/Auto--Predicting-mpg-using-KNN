@@ -1,0 +1,48 @@
+/***************************************************************************************************************************************************************
+NAME: POOJA SURESH KATTE
+MACHINE LEARNING ASSIGNMENT 
+/****************************************************************************************************************************************************************
+1.	The str() function tells that there are about 397 observations i.e we have  397 records or examples. 
+        It also tells us that there are  9 features that where recorded for the data.The names of the features are 
+        given as mpg,cylinders,... if we look at each feature line there is label associated with it like chr,num,int 
+        which tells us about the data being character or number or integer. here in this dataframe mpgg,displacement and acceleration are                                numbers;cyclinder,weight,year and origin are integers;horsepower and name are character. Succeeding these labels few beginning values 
+       are displayed. Looking at the names we can say that: mpg represents the miles per gallon, cylinders specify the
+       number of cylinders in the automobile, names denotes the names of the car and so on.
+
+2.	The relation between HP vs mpg shows a negative association as we can see from scatterplot that as HP decreases
+       the mpg increases. For displacement vs mpg we can see that as displacement decreases the mpg increases and vice versa.
+       Similar negative association can been seen via scatterplot for weight vs mpg. For cylinder vs mpg relation the cars with 4 cylinders 
+       consists of the high mpgs as well as the medium level mpgs where as cars with 8 cylinders have mpg between the lowest and the medium level,
+       while cyclinder with value 5 and 3 have very few samples associated with them .For acc vs mpg the 
+       scatterplot shows concentration of samples in the middle. The year vs mpg scatterplot shows increase in mpg over
+       a period of time. The year vs mpg show a bit of positive association .The origin vs mpg conveys that origin with ‘1’ has low mileage cars and origin with ‘3’           has high mileage cars. As the name is has more number of unique samples it is unwise to think about a relation between 
+       name and mpg
+
+3.	After looking at the scatterplot and the correlation matrix and values for the same, I decided to use cylinders,
+        HP, weight, displacement which have the maximum correlation. The origin also has a maximum positive correlation 
+        so I included that. here is the correlation matrix for mpg1 vs other features.
+      ----------------------------------------------------------------------------------------------------
+         	       cylinders displacement horsepower     weight acceleration       year     origin
+      ----------------------------------------------------------------------------------------------------
+         mpg1         -0.7591939   -0.7534766 -0.6670526 -0.7577566    0.3468215  0.4299042  0.5136984
+      ----------------------------------------------------------------------------------------------------
+
+4.	In the crosstable with k=13 true negative where 47  and true positives where 45 . The errors obtained that is :
+       The false negative  where 4 samples which where predicted as mpg1 1 instead of 0 and for false positive 4 samples
+       where incorrectly classified mpg1 as 0 instead of 1. There are total 51 mpg1 as value=0 and total 49 as mpg1 value=1 out of the 100 test samples.
+       I tried first by applying k=21 which produces false negative=6 and false positive =5  i.e a total error rate of 11% as I decreased the value of K to move the          value towards the square root of number of observations , I got less number of incorrectly classified samples. With K=13 I got only 8% for error rate.
+      Here is the number of false positive and false negative for values of K I tried on:
+
+      ----------------------------------------------------------------------------------------------------------
+      	 K value		False negative		False positive		Percent classified incorrectly
+      ---------------------------------------------------------------------------------------------------------- 
+         21			5			6			11
+	 17			5			6			11	
+	 15			4			6			10
+	 13			4			4			8
+	 12			4			4			8
+	 11			4			4			8
+     -----------------------------------------------------------------------------------------------------------
+
+
+

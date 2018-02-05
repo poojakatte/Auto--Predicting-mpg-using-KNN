@@ -1,0 +1,329 @@
+>Auto_raw<-read.csv("Auto.csv",stringsAsFactors=FALSE)
+> str(Auto_raw)
+'data.frame':   397 obs. of  9 variables:
+ $ mpg         : num  18 15 18 16 17 15 14 14 14 15 ...
+ $ cylinders   : int  8 8 8 8 8 8 8 8 8 8 ...
+ $ displacement: num  307 350 318 304 302 429 454 440 455 390 ...
+ $ horsepower  : chr  "130" "165" "150" "150" ...
+ $ weight      : int  3504 3693 3436 3433 3449 4341 4354 4312 4425 3850 ...
+ $ acceleration: num  12 11.5 11 12 10.5 10 9 8.5 10 8.5 ...
+ $ year        : int  70 70 70 70 70 70 70 70 70 70 ...
+ $ origin      : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ name        : chr  "chevrolet chevelle malibu" "buick skylark 320" "plymouth satellite" "amc rebel sst" ...
+
+> Auto_raw$horsepower<-as.integer(Auto_raw$horsepower)
+Warning message:
+NAs introduced by coercion 
+> Auto_raw_noNA<-Auto_raw[complete.cases(Auto_raw),]
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$horsepower,main="Horsepower vs mpg",ylab="mpg",xlab="horsepower")
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$displacement,main="displacement vs mpg",ylab="mpg",xlab="displacement")
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$cylinders,main="cylinders vs mpg",ylab="mpg",xlab="cylinders")
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$weight,main="weight vs mpg",ylab="mpg",xlab="weight")
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$acceleration,main="acc vs mpg",ylab="mpg",xlab="acc")
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$year,main="year vs mpg",ylab="mpg",xlab="year")
+> plot(y=Auto_raw_noNA$mpg,x=Auto_raw_noNA$origin,main="origin vs mpg",ylab="mpg",xlab="origin")
+
+> tesetmpg<-Auto_raw_noNA$mpg
+> median(tesetmpg)
+[1] 22.75
+> test_f<-function(mpgval){if(mpgval>median(tesetmpg)) 1 else 0}
+> ans_test<-sapply(tesetmpg,test_f)
+> test_auto<-Auto_raw_noNA
+> test_auto$mpg1<-ans_test
+> test_auto1<-test_auto
+> test_auto<-test_auto[,-1]
+> install.packages("corrplot")
+Installing package into ‘C:/Users/Wonder Woman/Documents/R/win-library/3.3’
+(as ‘lib’ is unspecified)
+--- Please select a CRAN mirror for use in this session ---
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.3/corrplot_0.77.zip'
+Content type 'application/zip' length 3019071 bytes (2.9 MB)
+downloaded 2.9 MB
+
+package ‘corrplot’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\Wonder Woman\AppData\Local\Temp\Rtmpcf93sM\downloaded_packages            
+> test_auto<-test_auto[,-8]
+> str(test_auto)
+'data.frame':   392 obs. of  8 variables:
+ $ cylinders   : int  8 8 8 8 8 8 8 8 8 8 ...
+ $ displacement: num  307 350 318 304 302 429 454 440 455 390 ...
+ $ horsepower  : int  130 165 150 150 140 198 220 215 225 190 ...
+ $ weight      : int  3504 3693 3436 3433 3449 4341 4354 4312 4425 3850 ...
+ $ acceleration: num  12 11.5 11 12 10.5 10 9 8.5 10 8.5 ...
+ $ year        : int  70 70 70 70 70 70 70 70 70 70 ...
+ $ origin      : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ mpg1        : num  0 0 0 0 0 0 0 0 0 0 ...
+
+> library(corrplot)
+> x<-test_auto[8]
+> y<-test_auto[1:7]
+> M<-cor(x,y)
+> corrplot(M,method="circle")
+> corrplot(M,method="number")
+> test_auto1<-test_auto
+> cor(test_auto1)
+              cylinders displacement horsepower     weight acceleration       year     origin
+cylinders     1.0000000    0.9508233  0.8429834  0.8975273   -0.5046834 -0.3456474 -0.5689316
+displacement  0.9508233    1.0000000  0.8972570  0.9329944   -0.5438005 -0.3698552 -0.6145351
+horsepower    0.8429834    0.8972570  1.0000000  0.8645377   -0.6891955 -0.4163615 -0.4551715
+weight        0.8975273    0.9329944  0.8645377  1.0000000   -0.4168392 -0.3091199 -0.5850054
+acceleration -0.5046834   -0.5438005 -0.6891955 -0.4168392    1.0000000  0.2903161  0.2127458
+year         -0.3456474   -0.3698552 -0.4163615 -0.3091199    0.2903161  1.0000000  0.1815277
+origin       -0.5689316   -0.6145351 -0.4551715 -0.5850054    0.2127458  0.1815277  1.0000000
+mpg1         -0.7591939   -0.7534766 -0.6670526 -0.7577566    0.3468215  0.4299042  0.5136984
+                   mpg1
+cylinders    -0.7591939
+displacement -0.7534766
+horsepower   -0.6670526
+weight       -0.7577566
+acceleration  0.3468215
+year          0.4299042
+origin        0.5136984
+mpg1          1.0000000
+
+> test_auto6<-test_auto[,-5]
+> test_auto6<-test_auto6[,-5]
+> str(test_auto6)
+'data.frame':   392 obs. of  6 variables:
+ $ cylinders   : int  8 8 8 8 8 8 8 8 8 8 ...
+ $ displacement: num  307 350 318 304 302 429 454 440 455 390 ...
+ $ horsepower  : int  130 165 150 150 140 198 220 215 225 190 ...
+ $ weight      : int  3504 3693 3436 3433 3449 4341 4354 4312 4425 3850 ...
+ $ origin      : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ mpg1        : num  0 0 0 0 0 0 0 0 0 0 ...
+> set.seed(1)
+> test_auto_sample<-sample(392,100)
+> test_auto6_Z<-as.data.frame(scale(test_auto6[-6]))
+> str(test_auto6_Z)
+'data.frame':   392 obs. of  5 variables:
+ $ cylinders   : num  1.48 1.48 1.48 1.48 1.48 ...
+ $ displacement: num  1.08 1.49 1.18 1.05 1.03 ...
+ $ horsepower  : num  0.663 1.573 1.183 1.183 0.923 ...
+ $ weight      : num  0.62 0.842 0.54 0.536 0.555 ...
+ $ origin      : num  -0.716 -0.716 -0.716 -0.716 -0.716 ...
+> test_auto_test<-test_auto6_Z[test_auto_sample,]
+> test_auto_train<-test_auto6_Z[-test_auto_sample,]
+> test_auto_labtraint<-test_auto6[-test_auto_sample,]
+> test_auto_labtest<-test_auto6[test_auto_sample,]
+> install.packages("class")
+Installing package into ‘C:/Users/Wonder Woman/Documents/R/win-library/3.3’
+(as ‘lib’ is unspecified)
+trying URL 'https://cloud.r-project.org/bin/windows/contrib/3.3/class_7.3-14.zip'
+Content type 'application/zip' length 101378 bytes (99 KB)
+downloaded 99 KB
+
+package ‘class’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\Wonder Woman\AppData\Local\Temp\Rtmpcf93sM\downloaded_packages
+
+> library(class)
+> predict_auto<-knn(train=test_auto_train,test=test_auto_test,cl=test_auto_labtraint$mpg1,k=21)
+> library(gmodels)
+
+> CrossTable(x=test_auto_labtest$mpg1,y=predict_auto,prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  100 
+
+ 
+                       | predict_auto 
+test_auto_labtest$mpg1 |         0 |         1 | Row Total | 
+-----------------------|-----------|-----------|-----------|
+                     0 |        45 |         6 |        51 | 
+                       |     0.882 |     0.118 |     0.510 | 
+                       |     0.900 |     0.120 |           | 
+                       |     0.450 |     0.060 |           | 
+-----------------------|-----------|-----------|-----------|
+                     1 |         5 |        44 |        49 | 
+                       |     0.102 |     0.898 |     0.490 | 
+                       |     0.100 |     0.880 |           | 
+                       |     0.050 |     0.440 |           | 
+-----------------------|-----------|-----------|-----------|
+          Column Total |        50 |        50 |       100 | 
+                       |     0.500 |     0.500 |           | 
+-----------------------|-----------|-----------|-----------|
+
+ 
+> predict_auto<-knn(train=test_auto_train,test=test_auto_test,cl=test_auto_labtraint$mpg1,k=17)
+> CrossTable(x=test_auto_labtest$mpg1,y=predict_auto,prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  100 
+
+ 
+                       | predict_auto 
+test_auto_labtest$mpg1 |         0 |         1 | Row Total | 
+-----------------------|-----------|-----------|-----------|
+                     0 |        45 |         6 |        51 | 
+                       |     0.882 |     0.118 |     0.510 | 
+                       |     0.900 |     0.120 |           | 
+                       |     0.450 |     0.060 |           | 
+-----------------------|-----------|-----------|-----------|
+                     1 |         5 |        44 |        49 | 
+                       |     0.102 |     0.898 |     0.490 | 
+                       |     0.100 |     0.880 |           | 
+                       |     0.050 |     0.440 |           | 
+-----------------------|-----------|-----------|-----------|
+          Column Total |        50 |        50 |       100 | 
+                       |     0.500 |     0.500 |           | 
+-----------------------|-----------|-----------|-----------|
+
+ 
+> predict_auto<-knn(train=test_auto_train,test=test_auto_test,cl=test_auto_labtraint$mpg1,k=15)
+> CrossTable(x=test_auto_labtest$mpg1,y=predict_auto,prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  100 
+
+ 
+                       | predict_auto 
+test_auto_labtest$mpg1 |         0 |         1 | Row Total | 
+-----------------------|-----------|-----------|-----------|
+                     0 |        45 |         6 |        51 | 
+                       |     0.882 |     0.118 |     0.510 | 
+                       |     0.918 |     0.118 |           | 
+                       |     0.450 |     0.060 |           | 
+-----------------------|-----------|-----------|-----------|
+                     1 |         4 |        45 |        49 | 
+                       |     0.082 |     0.918 |     0.490 | 
+                       |     0.082 |     0.882 |           | 
+                       |     0.040 |     0.450 |           | 
+-----------------------|-----------|-----------|-----------|
+          Column Total |        49 |        51 |       100 | 
+                       |     0.490 |     0.510 |           | 
+-----------------------|-----------|-----------|-----------|
+
+ 
+> predict_auto<-knn(train=test_auto_train,test=test_auto_test,cl=test_auto_labtraint$mpg1,k=13)
+> CrossTable(x=test_auto_labtest$mpg1,y=predict_auto,prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  100 
+
+ 
+                       | predict_auto 
+test_auto_labtest$mpg1 |         0 |         1 | Row Total | 
+-----------------------|-----------|-----------|-----------|
+                     0 |        47 |         4 |        51 | 
+                       |     0.922 |     0.078 |     0.510 | 
+                       |     0.922 |     0.082 |           | 
+                       |     0.470 |     0.040 |           | 
+-----------------------|-----------|-----------|-----------|
+                     1 |         4 |        45 |        49 | 
+                       |     0.082 |     0.918 |     0.490 | 
+                       |     0.078 |     0.918 |           | 
+                       |     0.040 |     0.450 |           | 
+-----------------------|-----------|-----------|-----------|
+          Column Total |        51 |        49 |       100 | 
+                       |     0.510 |     0.490 |           | 
+-----------------------|-----------|-----------|-----------|
+
+ 
+> predict_auto<-knn(train=test_auto_train,test=test_auto_test,cl=test_auto_labtraint$mpg1,k=12)
+> CrossTable(x=test_auto_labtest$mpg1,y=predict_auto,prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  100 
+
+ 
+                       | predict_auto 
+test_auto_labtest$mpg1 |         0 |         1 | Row Total | 
+-----------------------|-----------|-----------|-----------|
+                     0 |        47 |         4 |        51 | 
+                       |     0.922 |     0.078 |     0.510 | 
+                       |     0.922 |     0.082 |           | 
+                       |     0.470 |     0.040 |           | 
+-----------------------|-----------|-----------|-----------|
+                     1 |         4 |        45 |        49 | 
+                       |     0.082 |     0.918 |     0.490 | 
+                       |     0.078 |     0.918 |           | 
+                       |     0.040 |     0.450 |           | 
+-----------------------|-----------|-----------|-----------|
+          Column Total |        51 |        49 |       100 | 
+                       |     0.510 |     0.490 |           | 
+-----------------------|-----------|-----------|-----------|
+
+ 
+> predict_auto<-knn(train=test_auto_train,test=test_auto_test,cl=test_auto_labtraint$mpg1,k=11)
+> CrossTable(x=test_auto_labtest$mpg1,y=predict_auto,prop.chisq=FALSE)
+
+ 
+   Cell Contents
+|-------------------------|
+|                       N |
+|           N / Row Total |
+|           N / Col Total |
+|         N / Table Total |
+|-------------------------|
+
+ 
+Total Observations in Table:  100 
+
+ 
+                       | predict_auto 
+test_auto_labtest$mpg1 |         0 |         1 | Row Total | 
+-----------------------|-----------|-----------|-----------|
+                     0 |        47 |         4 |        51 | 
+                       |     0.922 |     0.078 |     0.510 | 
+                       |     0.922 |     0.082 |           | 
+                       |     0.470 |     0.040 |           | 
+-----------------------|-----------|-----------|-----------|
+                     1 |         4 |        45 |        49 | 
+                       |     0.082 |     0.918 |     0.490 | 
+                       |     0.078 |     0.918 |           | 
+                       |     0.040 |     0.450 |           | 
+-----------------------|-----------|-----------|-----------|
+          Column Total |        51 |        49 |       100 | 
+                       |     0.510 |     0.490 |           | 
+-----------------------|-----------|-----------|-----------|
+
+ 
+> 
